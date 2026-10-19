@@ -20,9 +20,11 @@ def get_spreadsheet_data():
             spreadsheetId=SPREADSHEET_ID,
             range=f"'{SHEET_NAME}'!A:H",
         )
-        .execute()['values']
+        .execute()
+        .get('values', [])
     )
 
     return all_rows
 
-print(get_spreadsheet_data())
+if __name__ == "__main__":
+    print(get_spreadsheet_data())

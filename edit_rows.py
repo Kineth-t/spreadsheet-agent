@@ -48,13 +48,8 @@ def add_spreadsheet_data(rows):
 
     return result
 
-today = date.today().strftime("%d/%m/%Y")
+if __name__ == "__main__":
+    today = date.today().strftime("%d/%m/%Y")
 
-fake_rows = [
-    # Company, Stage, Role, Location, Date Applied, Date Replied, Application Source, Details
-    ["Office of the President", "Applied", "Intern President (Part-time, Weekends Only)", "The Oval Office", today, "", "https://www.linkedin.com/jobs/president", ""],
-    ["Hogwarts", "Applied", "Defence Against the Dark Arts Intern", "Scotland", today, "", "https://www.hogwarts.edu/careers", ""],
-    ["NASA", "Applied", "Moon Cheese Quality Inspector", "The Moon", today, "", "https://www.nasa.gov/careers", ""],
-]
 
-print(add_spreadsheet_data(fake_rows))
+    print(add_spreadsheet_data(fake_rows))
