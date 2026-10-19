@@ -48,8 +48,28 @@ def add_spreadsheet_data(rows):
 
     return result
 
+def edit_spreadsheet_data(row_number, new_row):
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+    creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    service = build('sheets', 'v4', credentials=creds)
+
+    body = {
+        'values': [new_row]
+    }
+
+    result = (
+        service.spreadsheets()
+        .values()
+        .update(
+            spreadsheetId=SPREADSHEET_ID,
+            range=f"'{SHEET_NAME}'!A{row_number}:H{row_number}",
+            valueInputOption='USER_ENTERED',
+            body=body
+        )
+        .execute()
+    )
+
+    return result
+
 if __name__ == "__main__":
     today = date.today().strftime("%d/%m/%Y")
-
-
-    print(add_spreadsheet_data(fake_rows))
