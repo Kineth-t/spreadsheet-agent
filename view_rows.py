@@ -18,7 +18,7 @@ def get_spreadsheet_data():
         .values()
         .get(
             spreadsheetId=SPREADSHEET_ID,
-            range=f"'{SHEET_NAME}'!A:I",
+            range=f"'{SHEET_NAME}'!A:H",
         )
         .execute()['values']
     )
