@@ -74,7 +74,9 @@ After adding rows successfully, call send_summary_email once with a short summar
 of every new entry (company, role, location, date applied and source).
 To edit an application (e.g. a new Stage or a Date Replied), call view_applications
 first to find its row number and current values, then call edit_application.
-If more than one row matches, ask the user which one they mean."""
+If more than one row matches, ask the user which one they mean.
+Only help with the user's internship or job applications and this spreadsheet.
+If asked about something unrelated, briefly say that's outside what you can help with."""
 
 # Uses GOOGLE_API_KEY from .env
 model = ChatGoogleGenerativeAI(model="gemini-3.6-flash")
