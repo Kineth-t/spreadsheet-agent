@@ -1,3 +1,9 @@
+"""Chat agent that manages the internship applications Google Sheet.
+
+Gemini reads, adds and edits rows through the tools below, and emails a
+summary after adding new applications. Run with: python main.py
+"""
+
 from datetime import date
 from dotenv import load_dotenv
 from langchain.agents import create_agent
@@ -10,8 +16,8 @@ from send_email import send_email
 
 load_dotenv()
 
+# Sheet columns A to H, in order
 COLUMNS = ["Company", "Stage", "Role", "Location", "Date Applied", "Date Replied", "Application Source", "Details"]
-
 
 @tool
 def view_applications() -> list[dict]:
@@ -54,6 +60,9 @@ def send_summary_email(subject: str, body: str) -> str:
     return "Email sent"
 
 
+# --- Agent ---
+
+# Instructions Gemini follows for every message. Today's date is filled in at startup.
 SYSTEM_PROMPT = f"""You manage the user's internship applications spreadsheet.
 
 Columns: {", ".join(COLUMNS)}.
@@ -67,8 +76,10 @@ To edit an application (e.g. a new Stage or a Date Replied), call view_applicati
 first to find its row number and current values, then call edit_application.
 If more than one row matches, ask the user which one they mean."""
 
+# Uses GOOGLE_API_KEY from .env
 model = ChatGoogleGenerativeAI(model="gemini-3.6-flash")
 
+# The agent loops: Gemini calls tools, sees their results, and repeats until it can reply
 agent = create_agent(
     model=model,
     tools=[view_applications, add_applications, edit_application, send_summary_email],
@@ -77,6 +88,8 @@ agent = create_agent(
 
 
 def main():
+    """Chat with the agent in the terminal until the user types 'exit'."""
+    # Full conversation history, so the agent remembers earlier messages
     messages = []
     print("Spreadsheet agent ready. Type 'exit' to quit.")
     while True:
@@ -88,6 +101,7 @@ def main():
 
         messages.append({"role": "user", "content": user_input})
         result = agent.invoke({"messages": messages})
+        # Keep everything the agent did (tool calls and results included) for the next turn
         messages = result["messages"]
         print(f"\nAgent: {messages[-1].text}")
 
