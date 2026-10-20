@@ -44,7 +44,7 @@ It uses Gemini (`gemini-3.6-flash`) through LangChain, the Google Sheets API, an
    python main.py
    ```
 
-   Then try something like `I applied for a backend intern role at Shopee, found it on LinkedIn`. Type `exit` to quit.
+   Then try something like `I applied for a backend intern role at Shopee, the link is https://careers.shopee.sg/job-detail/12345`. Type `exit` to quit.
 
 ## Files
 
